@@ -1,0 +1,68 @@
+<h1 class="mt-4">Olá, edite o usuário!</h1>
+
+<ol class="breadcrumb mb-4">
+    <li class="breadcrumb-item active">
+        Edite qualquer campo disponível.
+    </li>
+</ol>
+
+<div class="container">
+    <!-- #clienteForm é uma diretiva pra declarar um form do Angular-->
+    <form #clienteForm="ngForm" (ngSubmit)="onSubmit()">
+
+        <div class="row">
+            <div class="col-md-12">
+                <div class="alert alert-success" role="alert" *ngIf="successUpdate">
+                    {{ successUpdate }}
+                </div>
+                <div class="alert alert-danger" role="alert" *ngFor="let erro of errors">
+                    {{ erro }}
+                </div>
+            </div>
+        </div>
+
+        <div class="row" *ngIf="usuario.id">
+            <div class="col-md-6">
+                <div class="form-group">
+                    <label>ID:</label>
+                    <input type="text" name="id" [ngModel]="usuario.id" class="form-control" disabled="true"/>
+                </div>
+            </div>
+
+            <div class="col-md-6">
+                <div class="form-group">
+                    <label>Nome: *</label>
+                    <input type="text" name="dataCadastro" [(ngModel)]="usuario.nome" class="form-control"/>
+                </div>
+            </div>
+        </div>
+        <div class="row">
+            <div class="col-md-6">
+                <div class="form-group">
+                    <label>E-mail: *</label>
+                    <input type="text" name="nome" [(ngModel)]="usuario.email" class="form-control" />
+                </div>
+            </div>
+
+            <div class="col-md-6">
+                <div class="form-group">
+                    <label>Senha: *</label>
+                    <input type="text" name="cpf" [(ngModel)]="usuario.senha" class="form-control" />
+                </div>
+            </div>
+        </div>
+        <div class="row">
+            <div class="col-md-6">
+                <button type="submit" class="btn btn-primary" *ngIf="usuario.id">
+                    <i class="fa fa-sync-alt"></i>
+                    Salvar edição
+                </button>
+                
+                <button type="button" class="btn btn-danger ml-1" (click)="voltarParaListagem()">
+                    <i class="fa fa-arrow-alt-circle-left"></i>
+                    Voltar
+                </button>
+            </div>
+        </div>
+    </form>
+</div>

@@ -28,9 +28,13 @@
               "src/assets"
             ],
             "styles": [
-              "src/styles.css"
+              "src/styles.css",
+              "node_modules/bootstrap/dist/css/bootstrap.min.css"
             ],
-            "scripts": []
+            "scripts": [
+              "node_modules/jquery/dist/jquery.min.js",
+              "node_modules/bootstrap/dist/js/bootstrap.bundle.js"
+            ]
           },
           "configurations": {
             "production": {
@@ -124,5 +128,8 @@
       }
     }
   },
-  "defaultProject": "desafioUrbana-app"
+  "defaultProject": "desafioUrbana-app",
+  "cli": {
+    "analytics": "938d0b0e-76b1-40c3-b7e2-fa477a633602"
+  }
 }

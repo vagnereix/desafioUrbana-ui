@@ -1,0 +1,97 @@
+<h1 class="mt-4">Olá adm, cadastre seu novo cartão!</h1>
+<ol class="breadcrumb">
+    <li class="breadcrumb-item active" aria-current="page">Por favor preecha os campos abaixo.</li>
+</ol>
+
+<div class="container">
+
+    <form #form="ngForm" (submit)="onSubmit()">
+
+        <div class="row">
+            <div class="col-md-12">
+                <div class="alert alert-success" role="alert" *ngIf="success == true">
+                    Cartão cadastrado com sucesso!
+                </div>
+                <div class="alert alert-success" role="alert" *ngIf="successUpdate == true">
+                    Cartão atualizado com sucesso!
+                </div>
+                <div class="alert alert-danger" role="alert" *ngFor="let erro of errors">
+                    {{ erro }}
+                </div>
+            </div>
+        </div>
+
+        <div class="row">
+            <div class="col-md-12">
+                <div class="form-group">
+                    <label> Usuário do cartão: </label>
+                    <select class="form-control"
+                        [ngModelOptions]="{standalone: true}"
+                            [(ngModel)]="idUsuario">
+
+                        <option value=""> Selecione... </option>
+                        <option *ngFor="let usuario of usuarios" [ngValue]="usuario.id">
+                            {{ usuario.nome }}
+                        </option>
+                    </select>
+                </div>
+            </div>
+        </div>
+
+        <!-- <div class="row">
+            <div class="col-md-12">
+                <div class="form-group">
+                    <label> Nome do cartão: </label>
+                    <input type="text" [(ngModel)]="cartao.nome" 
+                        class="form-control" name="descricao" 
+                        id="inputDescricao">
+                </div>
+            </div>
+        </div> -->
+
+        <div class="row">
+            <div class="col-md-12">
+                <div class="form-group">
+                    <label> Número do cartão: </label>
+                    <input type="number" [(ngModel)]="cartao.numero" 
+                        class="form-control" name="descricao" 
+                        id="inputDescricao">
+                </div>
+            </div>
+        </div>
+
+        <div class="row">
+            <div class="col-md-6">
+                <div class="form-group">
+                    <label> Tipo do cartão: </label>
+                    <select class="form-control"
+                        [ngModelOptions]="{standalone: true}"
+                            [(ngModel)]="cartao.tipo">
+
+                        <option value=""> Selecione... </option>
+
+                        <option *ngFor="let tipo of tipos" [ngValue]="tipo">
+                            {{ tipo }}
+                        </option>
+                    </select>
+                </div>
+            </div>
+        </div>
+
+        <div class="row">
+            <div class="col-mod-6">
+                <button type="submit" class="btn btn-success ml-3">
+                    <i class="fa fa-save"></i>
+                    Cadastrar cartão
+                </button>
+
+                <button type="button" class="btn btn-danger ml-1" (click)="voltarParaLista()">
+                    <i class="fa fa-arrow-alt-circle-left"></i>
+                    Voltar
+                </button>
+            </div>
+        </div>
+
+    </form>
+
+</div>

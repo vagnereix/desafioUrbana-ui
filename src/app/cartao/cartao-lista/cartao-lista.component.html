@@ -1,0 +1,113 @@
+<h1 class="mt-4">Olá adm!</h1>
+
+<ol class="breadcrumb mb-4">
+    <li class="breadcrumb-item active">Consulte aqui os cartões que um determinado usuáro possui.</li>
+</ol>
+
+<div class="container">
+
+    <form #consultaForm="ngForm" (submit)="consultar()" class="form-group">
+        <div class="row">
+            <div class="col-md-12">
+                <div class="alert alert-warning" role="alert" *ngIf="message">
+                    {{ message }}
+                </div>
+            </div>
+
+            <div class="col-md-12">
+                <div class="alert alert-danger" role="alert" *ngIf="mensagemErro">
+                    {{ mensagemErro }}
+                </div>
+                <div class="alert alert-success" role="alert" *ngIf="mensagemSucesso">
+                    {{ mensagemSucesso }}
+                </div>
+            </div>
+        </div>
+
+        <div class="row">
+            <div class="col-md-4">
+                <label for="inputNome"> Nome do cliente: </label>
+
+                <select [(ngModel)]="idUsuario" class="form-control" name="mes">
+                    <option value=""> Selecione... </option>
+                    
+                    <option *ngFor="let usuario of usuarios" [value]="usuario.id">
+                        {{ usuario.nome }}
+                    </option>
+                </select>
+            </div>
+        </div>
+
+        <div class="row">
+            <div class="col-md-4">
+                <button class="btn btn-primary mt-3" type="submit">
+                    <i class="fa fa-search"></i>
+                    Consultar
+                </button>
+                
+                <button type="button" (click)="cadastrarCartao()" class="btn btn-warning ml-1 mt-3">
+                    <i class="fa fa-plus-circle"></i>
+                    Novo cartão
+                </button>
+            </div>
+        </div>
+    </form>
+
+    <br/>
+
+    <div class="row">
+        <div class="col-md-12">
+            <table class="table">
+                <thead>
+                    <tr>
+                        <th> Nome no cartão </th>
+                        <th> Número </th>
+                        <th> Status </th>
+                        <th> Tipo </th>
+                        <th> Ações </th>
+                    </tr>
+                </thead>
+                <tbody>
+                    <tr *ngFor="let cartao of cartoes">
+                        <td> {{ cartao.nome }} </td>
+                        <td> {{ cartao.numero }} </td>
+                        <td> {{ cartao.status == false ? 'Desativado' : 'Ativado' }} </td>
+                        <td> {{ cartao.tipo }} </td>
+                        <td>
+                            <button class="btn btn-primary" (click)="alterarStatus(cartao)">
+                                <i class="fa fa-exchange-alt"></i>
+                            </button>
+
+                            <button class="btn btn-danger ml-1" data-toggle="modal" (click)="preparaDelecao(cartao)"
+                            data-target="#modalDelecao" >
+                                <i class="fa fa-trash-alt"></i>
+                            </button>
+                        </td>
+                    </tr>
+                </tbody>
+            </table>
+        </div>
+    </div>
+
+    <div id="modalDelecao" class="modal fade" tabindex="-1" role="dialog" aria-hidden="true">
+        <div class="modal-dialog" role="document">
+            <div class="modal-content">
+                <div class="modal-header">
+                    <h2>Atenção!</h2>
+                </div>
+                <div class="modal-body" *ngIf="cartaoSelecionado">
+                    Deseja deletar o cartão {{ cartaoSelecionado.nome }}?
+                </div>
+                <div class="modal-footer">
+                    <button class="btn btn-success" (click)="deletarCartao()" data-dismiss="modal">
+                        SIM
+                    </button>
+                    <button class="btn btn-default" data-dismiss="modal">
+                        NÃO
+                    </button>
+                </div>
+            </div>
+        </div>
+    </div>
+
+</div>
