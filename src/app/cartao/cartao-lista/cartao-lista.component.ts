@@ -49,7 +49,7 @@ export class CartaoListaComponent implements OnInit {
         response => {
           this.mensagemSucesso = 'Cartão deletado com sucesso!'
           this.consultar()
-        }, responseError => this.mensagemErro = responseError.error.errors.value()
+        }, responseError => this.mensagemErro = 'O pôde ser deletado!'
       )
   }
 

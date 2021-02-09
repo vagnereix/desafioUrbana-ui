@@ -10,8 +10,9 @@ import { Usuario } from '../usuario';
 })
 export class UsuarioListaComponent implements OnInit {
 
+  usuarioLogado!: string;
   usuarioSelecionado!: Usuario;
-  usuarios: Usuario[] = []
+  usuarios!: Usuario[];
   mensagemSucesso!: string;
   mensagemErro!: string;
 
@@ -20,8 +21,16 @@ export class UsuarioListaComponent implements OnInit {
     private service: UsuarioService) { }
 
   ngOnInit(): void {
+    this.usuarioLogado = this.service.getUsuarioAutenticado();
       this.service.getUsuarios()
         .subscribe(response => this.usuarios = response);
+  }
+
+  verificarDelecao(us: Usuario){
+    if(us.email == this.usuarioLogado){
+      this.service.encerrarSessao()
+      this.router.navigate(['/login'])
+    }
   }
 
   preparaDelecao(usuario: Usuario){
@@ -32,10 +41,11 @@ export class UsuarioListaComponent implements OnInit {
     this.service.deletar(this.usuarioSelecionado)
     .subscribe(
       response => {
+        this.verificarDelecao(this.usuarioSelecionado)
         this.mensagemSucesso = 'Usuário deletado com sucesso!'
-        this.ngOnInit();      
+        this.ngOnInit(); 
       },
-      respondeError => this.mensagemErro = respondeError.errors.value()//'Ocorreu um erro ao deletar o cliente!'
+      respondeError => this.mensagemErro = 'O usuário ainda possui cartões cadastrados em seu nome!'
     )
   }
 
