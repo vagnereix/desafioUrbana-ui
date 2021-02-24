@@ -68,6 +68,7 @@ export class LoginComponent implements OnInit {
         this.senha = "";
         this.errors = [];
       }, errorResponse => {
+        console.log(errorResponse)
         this.errors = errorResponse.error.errors;
       })
   }

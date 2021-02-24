@@ -15,6 +15,7 @@ export class UsuarioService {
 
   apiURLSave: string = environment.apiURLBase + "/api";
   apiURL: string = environment.apiURLBase + "/api/usuario";
+  apiURLEmail: string = environment.apiURLBase + "/api/usuario/email";
 
   tokenURL: string = environment.apiURLBase + environment.obterTokenURL
   clientID: string = environment.clientID
@@ -78,7 +79,7 @@ export class UsuarioService {
   }
 
   getUsuarioByID(id: number): Observable<Usuario> {
-    return this.http.get<any>(`${this.apiURL}/${id}`);
+    return this.http.get<Usuario>(`${this.apiURL}/${id}`);
   }
 
   atualizarUsuario(usuario: Usuario): Observable<any>{
@@ -87,6 +88,10 @@ export class UsuarioService {
 
   deletar(usuario: Usuario): Observable<any> {
     return this.http.delete<any>(`${this.apiURL}/${usuario.id}`);
+  }
+
+  getUsuarioByEmail(email: string): Observable<Usuario>{
+    return this.http.get<Usuario>(`${this.apiURLEmail}/${email}`);
   }
   
 }

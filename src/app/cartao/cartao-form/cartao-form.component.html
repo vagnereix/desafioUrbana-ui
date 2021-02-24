@@ -12,10 +12,10 @@
                 <div class="alert alert-success" role="alert" *ngIf="success == true">
                     Cartão cadastrado com sucesso!
                 </div>
-                <div class="alert alert-success" role="alert" *ngIf="successUpdate == true">
-                    Cartão atualizado com sucesso!
-                </div>
                 <div class="alert alert-danger" role="alert" *ngFor="let erro of errors">
+                    {{ erro }}
+                </div>
+                <div class="alert alert-danger" role="alert" *ngIf="erro">
                     {{ erro }}
                 </div>
             </div>
@@ -29,7 +29,6 @@
                         [ngModelOptions]="{standalone: true}"
                             [(ngModel)]="idUsuario">
 
-                        <option value=""> Selecione... </option>
                         <option *ngFor="let usuario of usuarios" [ngValue]="usuario.id">
                             {{ usuario.nome }}
                         </option>
@@ -67,8 +66,6 @@
                     <select class="form-control"
                         [ngModelOptions]="{standalone: true}"
                             [(ngModel)]="cartao.tipo">
-
-                        <option value=""> Selecione... </option>
 
                         <option *ngFor="let tipo of tipos" [ngValue]="tipo">
                             {{ tipo }}

@@ -13,7 +13,6 @@
                     {{ message }}
                 </div>
             </div>
-
             <div class="col-md-12">
                 <div class="alert alert-danger" role="alert" *ngIf="mensagemErro">
                     {{ mensagemErro }}
@@ -26,10 +25,9 @@
 
         <div class="row">
             <div class="col-md-4">
-                <label for="inputNome"> Nome do cliente: </label>
+                <label for="inputNome"> Nome do usuário: </label>
 
                 <select [(ngModel)]="idUsuario" class="form-control" name="mes">
-                    <option value=""> Selecione... </option>
                     
                     <option *ngFor="let usuario of usuarios" [value]="usuario.id">
                         {{ usuario.nome }}
@@ -55,7 +53,7 @@
 
     <br/>
 
-    <div class="row">
+    <div class="row" *ngIf="!isNull()">
         <div class="col-md-12">
             <table class="table">
                 <thead>
@@ -86,6 +84,49 @@
                     </tr>
                 </tbody>
             </table>
+        </div>
+    </div>
+    
+
+    <!-- se tiver catões buscados -->
+    <div class="row" *ngIf="cartoesBuscados">
+        <div class="col-md-12">
+            <table class="table">
+                <thead>
+                    <tr>
+                        <th> Nome no cartão </th>
+                        <th> Número </th>
+                        <th> Status </th>
+                        <th> Tipo </th>
+                        <th> Ações </th>
+                    </tr>
+                </thead>
+                <tbody>
+                    <tr *ngFor="let cartao of cartoesBuscados">
+                        <td> {{ cartao.nome }} </td>
+                        <td> {{ cartao.numero }} </td>
+                        <td> {{ cartao.status == false ? 'Desativado' : 'Ativado' }} </td>
+                        <td> {{ cartao.tipo }} </td>
+                        <td>
+                            <button class="btn btn-primary" (click)="alterarStatus(cartao)">
+                                <i class="fa fa-exchange-alt"></i>
+                            </button>
+
+                            <button class="btn btn-danger ml-1" data-toggle="modal" (click)="preparaDelecao(cartao)"
+                            data-target="#modalDelecao" >
+                                <i class="fa fa-trash-alt"></i>
+                            </button>
+                        </td>
+                    </tr>
+                </tbody>
+            </table>
+        </div>
+        
+        <div class="col-md-4" *ngIf="cartoesBuscados">
+            <button class="btn btn-secondary mt-3" (click)="load()">
+                <i class="fa fa-search"></i>
+                Consultar todos
+            </button>
         </div>
     </div>
 
