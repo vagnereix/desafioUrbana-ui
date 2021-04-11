@@ -17,9 +17,31 @@
         </div>
     </div>
 
+    <form #consultaForm="ngForm" class="form-group">
+        <div class="row">
+            <div class="col-md-4">
+                <label for="inputNome"> Busque um usuário por e-mail: </label>
+
+                <input type="text" name="email" [ngModelOptions]="{standalone: true}"
+                    [(ngModel)]="email" class="form-control" >
+            </div>
+        </div>
+
+        <div class="row">
+            <div class="col-md-4">
+                <button class="btn btn-primary mt-3" (click)="buscarUsuario()">
+                    <i class="fa fa-search"></i>
+                    Consultar
+                </button>
+            </div>
+        </div>
+    </form>
+
+    <br>
+
     <div class="row">
         <div class="col-md-12">
-            <table class="table table-condensed table-hover">
+            <table class="table table-condensed table-hover" *ngIf="!usuario">
                 <thead>
                     <tr>
                         <th> ID </th>
@@ -48,8 +70,49 @@
                     </tr>
                 </tbody>
             </table>
+
+            <!-- A de cima aparece quando nenhuma busca específica é feita -->
+
+            <table class="table table-condensed table-hover" *ngIf="usuario">
+                <thead>
+                    <tr>
+                        <th> ID </th>
+                        <th> NOME </th>
+                        <th> E-MAIL </th>
+                        <th> SENHA </th>
+                        <th> AÇÕES </th>
+                    </tr>
+                </thead>
+                <tbody>
+                    <tr>
+                        <td> {{ usuario.id }} </td>
+                        <td> {{ usuario.nome }} </td>
+                        <td> {{ usuario.email }} </td>
+                        <td> {{ usuario.senha }} </td>
+                        <td>
+                            <button class="btn btn-primary" (click)="chamarEdicao(usuario.id)">
+                                <i class="fa fa-edit"></i>
+                            </button>
+
+                            <button class="btn btn-danger ml-1" data-toggle="modal" (click)="preparaDelecao(usuario)" 
+                            data-target="#modalDelecao">
+                                <i class="fa fa-trash-alt"></i>
+                            </button>
+                        </td>
+                    </tr>
+                </tbody>
+            </table>
+        </div>
+
+        <div class="col-md-4" *ngIf="usuario">
+            <button class="btn btn-secondary mt-3" (click)="load()">
+                <i class="fa fa-search"></i>
+                Consultar todos
+            </button>
         </div>
     </div>
+
+    <!-- {{ usuario ? 'Mostra tabela' : 'Tabela escondida' }} -->
 
     <div id="modalDelecao" class="modal fade" tabindex="-1" role="dialog" aria-hidden="true">
         <div class="modal-dialog" role="document">

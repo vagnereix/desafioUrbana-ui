@@ -15,12 +15,10 @@ export class CartaoFormComponent implements OnInit {
   idUsuario!: number;
   cartao: Cartao;
   usuarios: Usuario[] = [];
-  message!: string;
   success: boolean = false;
-  successUpdate: boolean = false;
   errors: string[] = [];
-  tipos: string[];
-  nome!: string;
+  erro!: string;
+  tipos!: string[];
 
   constructor(
     private service: CartaoService,
@@ -28,10 +26,14 @@ export class CartaoFormComponent implements OnInit {
     private router: Router
   ) {
     this.cartao = new Cartao();
-    this.tipos = ['COMUM', 'ESTUDANTE', 'TRABALHADOR'];
    }
 
   ngOnInit(): void {
+    this.service.getTipos()
+      .subscribe(response => {
+        this.tipos = response
+      })
+
     this.usuarioService.getUsuarios()
       .subscribe(response => this.usuarios = response);
   }
@@ -45,9 +47,14 @@ export class CartaoFormComponent implements OnInit {
           response => {
             this.success = true;
             this.cartao = new Cartao();
+            this.erro = ''
+            this.errors = []
+            this.router.navigate(['/cartao/lista'])
         },
           errorResponse => {
-            this.errors = errorResponse.error.errors;
+            console.log(errorResponse)
+            this.errors = errorResponse.error.errors
+            this.erro = errorResponse.error.message
             this.success = false;
         });
     }

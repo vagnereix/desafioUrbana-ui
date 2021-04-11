@@ -10,6 +10,8 @@ import { Usuario } from '../usuario';
 })
 export class UsuarioListaComponent implements OnInit {
 
+  usuario!: Usuario;
+  email!: string;
   usuarioLogado!: string;
   usuarioSelecionado!: Usuario;
   usuarios!: Usuario[];
@@ -22,8 +24,20 @@ export class UsuarioListaComponent implements OnInit {
 
   ngOnInit(): void {
     this.usuarioLogado = this.service.getUsuarioAutenticado();
-      this.service.getUsuarios()
-        .subscribe(response => this.usuarios = response);
+    
+    this.service.getUsuarios()
+      .subscribe(response => this.usuarios = response);
+  }
+
+  load(){
+    location.reload();
+  }
+
+  buscarUsuario(){
+    this.service.getUsuarioByEmail(this.email)
+      .subscribe(response => {
+        this.usuario = response
+      });
   }
 
   verificarDelecao(us: Usuario){

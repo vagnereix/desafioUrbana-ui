@@ -1,5 +1,6 @@
 import { Component, OnInit } from '@angular/core';
 import { Router } from '@angular/router';
+import { empty } from 'rxjs';
 import { CartaoService } from 'src/app/cartao.service';
 import { UsuarioService } from 'src/app/usuario.service';
 import { Usuario } from 'src/app/usuario/usuario';
@@ -14,8 +15,9 @@ export class CartaoListaComponent implements OnInit {
 
   cartaoSelecionado!: Cartao;
   idUsuario!: number;
+  cartoesBuscados!: Cartao[];
   cartoes: Cartao[] = [];
-  usuarios: Usuario[] = [];
+  usuarios!: Usuario[];
   mensagemSucesso!: string;
   message!: string;
   mensagemErro!: string;
@@ -31,6 +33,11 @@ export class CartaoListaComponent implements OnInit {
   }
 
   ngOnInit(): void {
+    this.service.getCartoes()
+      .subscribe(response => {
+        this.cartoes = response
+      })
+
     this.usuarioService.getUsuarios()
       .subscribe(response => this.usuarios = response);
   }
@@ -53,18 +60,31 @@ export class CartaoListaComponent implements OnInit {
       )
   }
 
+  isNull(): boolean{
+    if(this.cartoes.length <= 0){
+      return true
+    } else {
+      return false
+    }
+  }
+
   consultar(){
-    this.service.buscar(this.idUsuario)
-    .subscribe(response => {
-      this.cartoes = response
-      if(this.cartoes.length <= 0){
-        this.message = 'Nenhum cartão encontrado para este usuário!'
-        this.mensagemSucesso = ''
-        this.mensagemErro = ''
-      } else {
-        this.message = ''
-      }
-    })
+    if(this.idUsuario == null){
+      this.message = 'Por favor selecione um usuário!'
+    }  else {
+      this.service.buscar(this.idUsuario)
+      .subscribe(response => {
+        this.cartoesBuscados = response
+        this.cartoes = []
+        if(this.cartoesBuscados.length <= 0){
+          this.message = 'Nenhum cartão encontrado para este usuário!'
+          this.mensagemSucesso = ''
+          this.mensagemErro = ''
+        } else {
+          this.message = ''
+        }
+      })
+    }
   }
 
   alterarStatus(cartao: Cartao){
@@ -72,8 +92,8 @@ export class CartaoListaComponent implements OnInit {
     .subscribe(
       response => {
         this.mensagemSucesso = "Status alterado!"
-        this.mensagemErro = ""
         this.message = ""
+        this.mensagemErro = ""
         this.consultar()
       }, errorResponse => {
         this.message = ""

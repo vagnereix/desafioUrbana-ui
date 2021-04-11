@@ -11,6 +11,11 @@ export class CartaoService {
 
   apiURL: string = environment.apiURLBase + "/api/cartao";
   apiURLSave: string = environment.apiURLBase + "/api/usuario";
+  apiURLTipos: string = this.apiURL + "/tipos";
+
+  getTipos(): Observable<string[]>{
+    return this.http.get<string[]>(this.apiURLTipos);
+  }
 
   salvar(id: number, cartao: Cartao): Observable<Cartao> {
     return this.http.post<Cartao>(`${this.apiURLSave}/${id}`, cartao);
@@ -26,6 +31,10 @@ export class CartaoService {
 
   alterarStatus(cartao: Cartao): Observable<Cartao>{
     return this.http.put<Cartao>(`${this.apiURL}/${cartao.numero}`, cartao);
+  }
+
+  getCartoes(): Observable<Cartao[]>{
+    return this.http.get<Cartao[]>(this.apiURL);
   }
 
   constructor(
